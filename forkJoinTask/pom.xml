@@ -7,6 +7,17 @@
     <groupId>com.vicboma.utils</groupId>
     <artifactId>downloadAsync.forkJoinTask</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <junit.version>4.12</junit.version>
+        <main.class>main</main.class>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <maven.version>4.0.0</maven.version>
+        <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
     <build>
         <plugins>
             <plugin>
