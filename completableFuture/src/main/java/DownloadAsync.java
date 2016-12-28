@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Created by vicboma on 26/12/16.
  */
-public class DownloadAsync<T extends CompletableFuture<FileOutputStream>, H extends Pair<String,String>> {
+public class DownloadAsync<T extends CompletableFuture<File>, H extends Pair<String,String>> {
 
     private ConcurrentLinkedQueue<Pair<T,H>> queue;
 
@@ -46,7 +46,7 @@ public class DownloadAsync<T extends CompletableFuture<FileOutputStream>, H exte
                     final Pair<T,H> poll = _priorityQueue.poll();
                     try {
                         poll.key().complete(processSingleAttachment(poll).get());
-                        System.out.println("Taks Resolved ******************** " + poll.toString());
+                        //System.out.println("Taks Resolved ******************** " + poll.toString());
 
                     } catch (Exception e) {
                         System.err.println("Taks Rejected ******************** " + poll.toString());
@@ -72,7 +72,7 @@ public class DownloadAsync<T extends CompletableFuture<FileOutputStream>, H exte
 
 
     public T submit(H elem) {
-        final CompletableFuture<FileOutputStream> completableFuture = new CompletableFuture<FileOutputStream>();
+        final CompletableFuture<File> completableFuture = new CompletableFuture<File>();
         final Pair<T,H> pair = Pair.create(completableFuture,elem);
         queue.add(pair);
         return (T)completableFuture;
@@ -91,9 +91,9 @@ public class DownloadAsync<T extends CompletableFuture<FileOutputStream>, H exte
     }
 
 
-    private CompletableFuture<FileOutputStream> processSingleAttachment(Pair<T,H> it) {
+    private CompletableFuture<File> processSingleAttachment(Pair<T,H> it) {
         return CompletableFuture.supplyAsync(() -> {
-                FileOutputStream fileOS = null;
+            File fileOS = null;
                     try {
                         Pair<String,String> pair = it.value();
                         System.out.println("Processing task: " +pair.value());
@@ -108,7 +108,7 @@ public class DownloadAsync<T extends CompletableFuture<FileOutputStream>, H exte
         );
     }
 
-    private FileOutputStream execute(Pair<String,String> pair) throws IOException {
+    private File execute(Pair<String,String> pair) throws IOException {
         final BufferedInputStream in = new BufferedInputStream(new URL(pair.key()).openStream());
         final FileOutputStream fos = new FileOutputStream(pair.value());
         final BufferedOutputStream bout = new BufferedOutputStream(fos);
@@ -121,6 +121,6 @@ public class DownloadAsync<T extends CompletableFuture<FileOutputStream>, H exte
         bout.close();
         in.close();
 
-        return fos;
+        return new File(pair.value());
     }
 }

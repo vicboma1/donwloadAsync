@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
@@ -43,7 +44,7 @@ public class DownloadAsyncTest {
 
     @org.junit.Test
     public void testSubmit1() throws Exception {
-        final List<CompletableFuture<FileOutputStream>> listCompletable = DownloadAsync.create().submit(
+        final List<CompletableFuture<File>> listCompletable = DownloadAsync.create().submit(
                 Arrays.asList(
                         Pair.create("https://github.com/vicboma1/donwloadAsync/blob/master/README.md", "README.MD"),
                         Pair.create("https://github.com/vicboma1/donwloadAsync/blob/master/LICENSE", "LICENSE"),
@@ -59,10 +60,12 @@ public class DownloadAsyncTest {
                     .stream()
                     .parallel()
                     .forEach(completable -> {
-                        FileOutputStream fos = null;
+                        File file = null;
                         try {
-                            fos = completable.get();
-                            System.out.println("Assert TRUE");
+                            file = completable.get();
+                            Boolean res = file.exists();
+                            System.out.println("Assert "+res.toString().toUpperCase());
+                            assertTrue(res);
                         } catch (Exception e) {
                             e.printStackTrace();
                             fail();
