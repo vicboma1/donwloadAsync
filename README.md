@@ -1,6 +1,3 @@
 # Donwload Async Resources for java
 
-## Versions
-
-* ForkJoin Task
-* CompletableFuture
+![](https://github.com/vicboma1/donwloadAsync/tree/master/completableFuture/src/main/resources/downloadAsyncCompletableFuture.gif)
